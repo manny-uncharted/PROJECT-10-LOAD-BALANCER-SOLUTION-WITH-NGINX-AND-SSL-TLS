@@ -4,6 +4,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Configure Nginx as a Load Balancer](#configure-nginx-as-a-load-balancer)
+- [Register a domain name and configure secured connection using ssl/tls certificcates](#register-a-domain-name-and-configure-secured-connection-using-ssl/tls-certificcates)
+
 
 
 ## Introduction
@@ -24,6 +26,7 @@ There are different types of SSL/TLS certificates – you can learn more about t
 In this project you will register your website with LetsEnrcypt Certificate Authority, to automate certificate issuance you will use a shell client recommended by LetsEncrypt – cetrbot.
 
 
+
 ## Prerequisites
 This project consists of two parts:
 - Infrastructure: AWS.
@@ -38,11 +41,72 @@ This project consists of two parts:
 ![Target Infrastructure](https://darey.io/wp-content/uploads/2021/07/nginx_lb.png)
 
 
+
 ## Configure Nginx as a Load Balancer
 Here we can decide to create a fresh installation of Linux for Nginx or use the same Linux server that we used for Apache. In this project, we will create a fresh installation of Linux for Nginx.
 
 
 - Create an EC2 VM based on Ubuntu 20.04 and name it Nginx LB and also open a TCP port 80 for HTTP connections, also open port 443 for HTTPS connections.
 
+
+- Update /etc/hosts file for local DNS with the names of the web servers and their local IP addresses.
+
 Results:
-![Nginx LB]()
+![Nginx LB](img/hosts.png)
+
+
+- Install and configure Nginx as a load balancer to point traffic to the resolvable DNS names of the webservers
+```
+sudo apt update
+sudo apt install nginx
+```
+
+Results:
+![Nginx LB](img/nginx.png)
+
+
+- configure Nginx Load balancer using web server names defined in /etc/hosts.
+
+Open the Nginx configuration file for editing:
+
+```
+sudo nano /etc/nginx/nginx.conf
+```
+and insert the following configuration into the HTTP section:
+
+```
+ upstream myproject {
+    server Web1 weight=5;
+    server Web2 weight=5;
+  }
+
+server {
+    listen 80;
+    server_name www.domain.com;
+    location / {
+      proxy_pass http://myproject;
+    }
+  }
+```
+then comment out this line in the HTTP section:
+
+```
+include /etc/nginx/sites-enabled/*;
+```
+Results:
+![Nginx LB](img/nginx_conf.png)
+
+
+- Restart Nginx and make sure the service is up and running:
+
+```
+sudo systemctl restart nginx
+sudo systemctl status nginx
+```
+
+Results:
+![Nginx LB](img/nginx_status.png)
+
+
+
+## Register a domain name and configure a secured connection using SSL/tls certificates
