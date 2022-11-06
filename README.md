@@ -121,7 +121,14 @@ Results:
 ![Nginx LB](img/domain.png)
 
 
-- Assign an Elastic IP to the Nginx LB server. 
+- Assign an Elastic IP to the Nginx LB server. To lean how to assign an Elastic IP to an EC2 instance, you can read this <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">article</a>.
 
 Results:
 ![Nginx LB](img/elastic_ip.png)
+
+- Update A record for the domain name to point to the Elastic IP of the Nginx LB server.
+
+Note: To learn how to update A record for the domain name to point to the Elastic IP of the Nginx LB server, you can read this <a href="https://medium.com/progress-on-ios-development/connecting-an-ec2-instance-with-a-godaddy-domain-e74ff190c233">article</a>.
+
+Results:
+![Nginx LB](img/a_record.png)
