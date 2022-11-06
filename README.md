@@ -109,4 +109,19 @@ Results:
 
 
 
-## Register a domain name and configure a secured connection using SSL/tls certificates
+## Register a domain name and configure a secured connection using SSL/tls certificates.
+
+In this section, we would be working on making the necessary configurations to ensure that the connection to our tooling web solution is secure.
+
+To get a valid SSL certificate, we need to register a domain name and configure a secured connection using SSL/TLS certificates.
+
+- Register a domain name with a domain name registrar. You can use any domain name registrar of your choice. In this project, we will use whogohost.com. You can also use any other domain name registrar of your choice.
+
+Results:
+![Nginx LB](img/domain.png)
+
+
+- Assign an Elastic IP to the Nginx LB server. 
+
+Results:
+![Nginx LB](img/elastic_ip.png)
