@@ -132,3 +132,5 @@ Note: To learn how to update A record for the domain name to point to the Elasti
 
 Results:
 ![Nginx LB](img/a_record.png)
+
+- Configure Nginx to recognize your new domain
