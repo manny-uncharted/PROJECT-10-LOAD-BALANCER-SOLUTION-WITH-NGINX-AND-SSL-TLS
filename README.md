@@ -5,7 +5,7 @@
 - [Prerequisites](#prerequisites)
 - [Configure Nginx as a Load Balancer](#configure-nginx-as-a-load-balancer)
 - [Register a domain name and configure secured connection using ssl/tls certificcates](#register-a-domain-name-and-configure-secured-connection-using-ssl/tls-certificcates)
-
+- [Conclusion](#conclusion)
 
 
 ## Introduction
@@ -165,3 +165,35 @@ sudo certbot --nginx
 
 Results:
 ![Nginx LB](img/certbot2.png)
+
+- Now you should be able to access your website using the domain name and the secured connection.
+
+Results:
+![Nginx LB](img/https.png)
+
+- Let's set up a periodic renewal of the certificate. To do this, run the following command:
+
+```
+sudo certbot renew --dry-run
+```
+
+Results:
+![Nginx LB](img/certbot3.png)
+
+- For best practice, it's best to run a scheduled job that runs the renew command periodically. Let's configure the cronjob to run the command twice a day. To do this, run the following command:
+
+```
+sudo crontab -e
+```
+and add the following line
+
+```
+* */12 * * * root/usr/bin/certbot renew > /dev/null 2>&1
+```
+
+Results:
+![Nginx LB](img/cronjob.png)
+
+
+## Conclusion
+In this project, we have configured Nginx as a load balancer and registered a domain name and configured a secured connection using SSL/TLS certificates.
