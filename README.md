@@ -121,7 +121,7 @@ Results:
 ![Nginx LB](img/domain.png)
 
 
-- Assign an Elastic IP to the Nginx LB server. To lean how to assign an Elastic IP to an EC2 instance, you can read this <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">article</a>.
+- Assign an Elastic IP to the Nginx LB server. To learn how to assign an Elastic IP to an EC2 instance, you can read this <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">article</a>.
 
 Results:
 ![Nginx LB](img/elastic_ip.png)
@@ -133,4 +133,35 @@ Note: To learn how to update A record for the domain name to point to the Elasti
 Results:
 ![Nginx LB](img/a_record.png)
 
-- Configure Nginx to recognize your new domain
+- Configure Nginx to recognize your new domain. By updating the Nginx configuration file, we will tell Nginx to recognize the new domain name and redirect all traffic to it.
+
+```
+sudo nano /etc/nginx/nginx.conf
+```
+
+Results:
+![Nginx LB](img/nginx_conf2.png)
+
+- Now we need to install certbot to get a valid SSL certificate. Certbot is a free, open-source software tool for automatically using Let’s Encrypt certificates on manually-administrated websites to enable HTTPS.
+
+We need to ensure that snapd service is active and running. To do this, run the following command:
+```
+sudo systemctl status snapd
+```
+and then we proceed to install certbot:
+```
+sudo snap install --classic certbot
+```
+
+Results:
+![Nginx LB](img/certbot.png)
+
+- At this point, we need to request the certificate from LetsEncrypt. we need to choose the domain we want the certificate to be issued for, the domain would be looked up from the Nginx configuration file. To do this, run the following command:
+
+```
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+```
+
+Results:
+![Nginx LB](img/certbot2.png)
